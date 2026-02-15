@@ -22,6 +22,7 @@
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .navbar .logo-container .logo-circle {
+  width: -moz-fit-content;
   width: fit-content;
   padding: 25px;
   border: 2px solid #fff;
@@ -552,24 +553,6 @@ h3 {
     opacity: 0;
   }
 }
-.about .vertical-title {
-  position: absolute;
-  left: 4rem;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  font-size: 0.75rem;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  opacity: 0.4;
-  font-weight: 700;
-  mix-blend-mode: difference;
-  z-index: 10;
-}
-@media (max-width: 1024px) {
-  .about .vertical-title {
-    display: none;
-  }
-}
 .about .content {
   position: relative;
   z-index: 5;
@@ -692,4 +675,4 @@ h3 {
 .project p {
   font-size: 1.1rem;
   opacity: 0.8;
-}
+}/*# sourceMappingURL=main.css.map */

@@ -5,6 +5,8 @@ import Image from "next/image";
 import LiquidImage from "../components/LiquidImage";
 import ThreeLiquidEffect from "../components/ThreeLiquidEffect";
 import LiquidText from "../components/LiquidText";
+import LiquidSkills from "../components/LiquidSkills";
+import LiquidHeading from "../components/LiquidHeading";
 import { scrambleText } from "../utils/scramble";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -13,6 +15,47 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   useEffect(() => {
+    // Hero Entrance Timeline
+    const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    // Ensure background is hidden initially
+    gsap.set(".hero-liquid-bg", { opacity: 0 });
+
+    // Grid Overlay (subtle background element)
+    heroTl
+      .fromTo(".grid-overlay", { opacity: 0 }, { opacity: 1, duration: 2 }, 0)
+      // Content Reveal
+      .fromTo(
+        ".hero-branding h1",
+        { y: 100, opacity: 0, rotateX: -20 },
+        { y: 0, opacity: 1, rotateX: 0, duration: 1.5, stagger: 0.2 },
+        0.2, // Start content earlier
+      )
+      .fromTo(
+        ".hero-branding .hero-accent",
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 0.6, duration: 1 },
+        "-=1.0",
+      )
+      .fromTo(
+        [".corner-widget", ".scroll-indicator span"],
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1, stagger: 0.1 },
+        "-=0.8",
+      )
+      .fromTo(
+        ".scroll-indicator .line",
+        { scaleY: 0, transformOrigin: "top" },
+        { scaleY: 1, duration: 1.2, ease: "expo.out" },
+        "-=0.8",
+      )
+      // Background Shape LAST
+      .to(
+        ".hero-liquid-bg",
+        { opacity: 1, duration: 2, ease: "power2.inOut" },
+        "-=0.5", // Start fading in as content finishes
+      );
+
     // About Section Animations
     gsap.from(".about-bio", {
       y: 50,
@@ -36,19 +79,6 @@ export default function Home() {
         start: "top 80%",
       },
     });
-
-    // Vertical Titles Reveal
-    gsap.utils.toArray(".vertical-title").forEach((title) => {
-      gsap.from(title, {
-        opacity: 0,
-        x: -20,
-        duration: 1,
-        scrollTrigger: {
-          trigger: title,
-          start: "top 80%",
-        },
-      });
-    });
   }, []);
 
   return (
@@ -59,9 +89,9 @@ export default function Home() {
         <div className="site-wrapper hero-site-wrapper">
           <div className="hero-branding">
             <h1>
-              PARDEEP
+              DIGITAL BUILDER
               <br />
-              SINGH
+              <span className="hero-accent">&amp; CREATIVE CODER</span>
             </h1>
           </div>
 
@@ -95,14 +125,8 @@ export default function Home() {
             <div className="line"></div>
             <div className="line"></div>
           </div>
-          <span
-            className="vertical-title"
-            data-text="#01 ABOUT"
-            onMouseEnter={scrambleText}
-          >
-            #01 ABOUT
-          </span>
           <div className="content">
+            <LiquidHeading text="ABOUT" />
             <div className="liquid-text-wrapper">
               <LiquidText
                 text={
@@ -116,46 +140,32 @@ export default function Home() {
               prioritize fluid motion, technical precision, and human-centric
               design.
             </p>
-            <div className="skills-grid">
-              <div className="skill-category">
-                <h3>Frontend</h3>
-                <div className="skill-tags">
-                  {[
+            <LiquidSkills
+              skills={[
+                {
+                  title: "Frontend",
+                  items: [
                     "React.js",
                     "Next.js",
                     "JavaScript",
                     "GSAP",
                     "SCSS",
                     "Three.js",
-                  ].map((skill) => (
-                    <span key={skill}>{skill}</span>
-                  ))}
-                </div>
-              </div>
-              <div className="skill-category">
-                <h3>Tools</h3>
-                <div className="skill-tags">
-                  {["Figma", "Photoshop", "Git", "Webpack", "Vite"].map(
-                    (skill) => (
-                      <span key={skill}>{skill}</span>
-                    ),
-                  )}
-                </div>
-              </div>
-            </div>
+                  ],
+                },
+                {
+                  title: "Tools",
+                  items: ["Figma", "Photoshop", "Git", "Webpack", "Vite"],
+                },
+              ]}
+            />
           </div>
         </div>
       </section>
 
       <section className="projects" id="projects">
         <div className="site-wrapper">
-          <span
-            className="vertical-title"
-            data-text="#02 PROJECTS"
-            onMouseEnter={scrambleText}
-          >
-            #02 PROJECTS
-          </span>
+          <LiquidHeading text="PROJECTS" />
           <div className="project-grid">
             <div className="project-item">
               <LiquidImage
@@ -179,13 +189,7 @@ export default function Home() {
 
       <section className="experience" id="experience">
         <div className="site-wrapper">
-          <span
-            className="vertical-title"
-            data-text="#03 EXPERIENCE"
-            onMouseEnter={scrambleText}
-          >
-            #03 EXPERIENCE
-          </span>
+          <LiquidHeading text="EXPERIENCE" />
           <div className="exp-item">
             <h3>Executive Frontend Developer</h3>
             <p>Grapes Worldwide | Nov 2024 – Present</p>
@@ -199,13 +203,7 @@ export default function Home() {
 
       <section className="contact" id="contact">
         <div className="site-wrapper">
-          <span
-            className="vertical-title"
-            data-text="#04 CONTACT"
-            onMouseEnter={scrambleText}
-          >
-            #04 CONTACT
-          </span>
+          <LiquidHeading text="CONTACT" />
           <div className="contact-info">
             <h2>Ready to elevate your digital presence?</h2>
             <p

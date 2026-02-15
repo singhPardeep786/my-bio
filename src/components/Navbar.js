@@ -19,6 +19,17 @@ const Navbar = () => {
     }
   };
 
+  useEffect(() => {
+    // Initial entrance animation
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    tl.fromTo(
+      [".logo-container", ".nav-decor-right", ".menu-trigger"],
+      { y: -30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, clearProps: "all" },
+    );
+  }, []);
+
   // Scroll listener for logo animation
   useEffect(() => {
     const handleScroll = () => {
@@ -129,7 +140,6 @@ const Navbar = () => {
           LINKEDIN
         </a>
       </div>
-
 
       <div
         className={`menu-trigger ${isOpen ? "active" : ""}`}

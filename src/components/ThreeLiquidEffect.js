@@ -226,6 +226,7 @@ const ThreeLiquidEffect = () => {
   return (
     <div
       ref={containerRef}
+      className="hero-liquid-bg"
       style={{
         position: "absolute",
         top: 0,

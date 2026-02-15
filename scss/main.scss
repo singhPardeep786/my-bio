@@ -8,8 +8,9 @@
   --text-color: #f7f7f7;
   --accent-color: #a1a1a1;
   --font-main:
-    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    "Outfit", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  --font-display: "Space Grotesk", "Outfit", sans-serif;
   --gradient-bg: radial-gradient(circle at center, #1a1a1a 0%, #0d0d0d 100%);
   --grain-opacity: 0.05;
 }
@@ -92,8 +93,9 @@ section {
 h1,
 h2,
 h3 {
+  font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.03em;
   line-height: 1.1;
 }
 
@@ -189,12 +191,23 @@ h3 {
     z-index: 5;
 
     h1 {
-      font-size: clamp(4rem, 16vw, 12rem);
-      font-weight: 900;
-      line-height: 0.8;
-      margin-bottom: 0; // Remove margin for perfect vertical centering
-      letter-spacing: -0.01em;
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5.5vw, 5rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 0;
+      letter-spacing: -0.02em;
       text-transform: uppercase;
+    }
+
+    .hero-accent {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.65em;
+      letter-spacing: 0.08em;
+      margin-top: 0.3em;
+      opacity: 0.6;
     }
   }
 
@@ -295,7 +308,9 @@ h3 {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  overflow: hidden;
 
+  // Animated grid lines
   .about-grid-lines {
     position: absolute;
     top: 0;
@@ -306,24 +321,70 @@ h3 {
     justify-content: space-between;
     pointer-events: none;
     z-index: 1;
-    padding: 0 5%; // Internal grid lines
+    padding: 0 5%;
+
+    .line {
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(255, 255, 255, 0.03) 20%,
+        rgba(255, 255, 255, 0.06) 50%,
+        rgba(255, 255, 255, 0.03) 80%,
+        transparent 100%
+      );
+      position: relative;
+      overflow: hidden;
+
+      // Animated glowing streak
+      &::after {
+        content: "";
+        position: absolute;
+        top: -60%;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          rgba(100, 180, 255, 0.25) 30%,
+          rgba(140, 120, 255, 0.4) 50%,
+          rgba(100, 180, 255, 0.25) 70%,
+          transparent
+        );
+        animation: lineGlow 8s ease-in-out infinite;
+      }
+
+      &:nth-child(1)::after {
+        animation-delay: 0s;
+      }
+      &:nth-child(2)::after {
+        animation-delay: 2s;
+      }
+      &:nth-child(3)::after {
+        animation-delay: 4s;
+      }
+      &:nth-child(4)::after {
+        animation-delay: 6s;
+      }
+    }
   }
 
-  .vertical-title {
-    position: absolute;
-    left: 4rem; // Moved to the left edge of the viewport
-    top: 50%;
-    transform: translateY(-50%) rotate(-90deg);
-    font-size: 0.75rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    opacity: 0.4;
-    font-weight: 700;
-    mix-blend-mode: difference;
-    z-index: 10;
-
-    @media (max-width: 1024px) {
-      display: none;
+  @keyframes lineGlow {
+    0% {
+      top: -60%;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      top: 120%;
+      opacity: 0;
     }
   }
 
@@ -411,13 +472,41 @@ h3 {
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 100px;
             white-space: nowrap;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 255, 0.02);
+
+            &::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: -100%;
+              width: 100%;
+              height: 100%;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.06),
+                transparent
+              );
+              transition: left 0.6s ease;
+            }
 
             &:hover {
-              background: #fff;
-              color: #000;
+              background: rgba(255, 255, 255, 0.95);
+              color: #0d0d0d;
               opacity: 1;
-              border-color: #fff;
+              border-color: rgba(255, 255, 255, 0.6);
+              transform: translateY(-2px);
+              box-shadow:
+                0 4px 20px rgba(100, 180, 255, 0.15),
+                0 0 40px rgba(140, 120, 255, 0.08);
+
+              &::before {
+                left: 100%;
+              }
             }
           }
         }
